@@ -1,7 +1,7 @@
 {
-  "name": "astro_predict",
+  "name": "horoscope",
   "version": "1.0.0",
-  "description": "Predict Astrology based on date time and place using Chat GPT",
+  "description": "Predict Horoscope based on date and place using Chat GPT",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -10,6 +10,9 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
