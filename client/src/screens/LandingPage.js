@@ -7,14 +7,14 @@ import AddPersonForm from "./AddPersonForm";
 
 const LandingPage = () => {
   const addPersonFormRef = useRef();
-  const [userDetails, setUserDetails] = React.useState({});
+  const [userDetails, setUserDetails] = useState({ persons: [] });
   const isLoggedIn = !!User.getToken();
 
   React.useEffect(() => {
     if (isLoggedIn) {
       fetchUserDetails();
     }
-  }, []);
+  }, [isLoggedIn]);
 
   const fetchUserDetails = async () => {
     const response = await UserService.getUserDetails();
@@ -116,6 +116,8 @@ const LandingPage = () => {
           <div className="w-20 h-20 p-6 rounded-md bg-theme-red-500" />
         </div> */}
         {/* Birth Details Input */}
+         {/* Render AddPersonForm only when userDetails.persons is an array */}
+      {Array.isArray(userDetails.persons) && (
         <div
           ref={addPersonFormRef}
           className="w-full gap-6 flex flex-col z-10 p-4 h-[75vh] justify-center items-center"
@@ -126,14 +128,14 @@ const LandingPage = () => {
             onSuccess={(newPerson) =>
               setUserDetails((prev) => ({
                 ...prev,
-                persons: [...prev.persons, newPerson],
+                persons: prev.persons ? [...prev.persons, newPerson] : [newPerson],
               }))
             }
           />
         </div>
-      
-      </div>
+      )}
     </>
   );
 };
+
 export default LandingPage;
