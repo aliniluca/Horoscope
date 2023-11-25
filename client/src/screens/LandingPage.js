@@ -125,10 +125,11 @@ const LandingPage = () => {
             persons={userDetails.persons}
             type="add"
             onSuccess={(newPerson) =>
-            setUserDetails((prev) => ({
+          setUserDetails((prev) => ({
   ...prev,
-  persons: prev.persons ? [...prev.persons, newPerson] : prev.persons
+  persons: [...prev.persons, newPerson]
 }))
+
 
             }
           />
