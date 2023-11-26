@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { User } from "../utils/User";
 import { UserService } from "../api/UserService";
@@ -7,10 +7,10 @@ import AddPersonForm from "./AddPersonForm";
 
 const LandingPage = () => {
   const addPersonFormRef = useRef();
-  const [userDetails, setUserDetails] = useState({ persons: [] });
+  const [userDetails, setUserDetails] = useState({});
   const isLoggedIn = !!User.getToken();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLoggedIn) {
       fetchUserDetails();
     }
@@ -20,6 +20,7 @@ const LandingPage = () => {
     const response = await UserService.getUserDetails();
     setUserDetails(response.user);
   };
+
   const logoutUser = () => {
     User.clearToken();
     window.location.reload();
@@ -68,7 +69,7 @@ const LandingPage = () => {
                   <span>Hi {userDetails?.email?.split("@")?.[0]} !</span>
                   <button
                     className="text-white hover:text-theme-secondary-500 hover:underline"
-                    onClick={() => logoutUser()}
+                    onClick={logoutUser}
                   >
                     Logout
                   </button>
@@ -108,15 +109,7 @@ const LandingPage = () => {
           </div>
           <div />
         </div>
-        {/* <div className="flex gap-2 p-6 bg-white ">
-          <div className="w-20 h-20 p-6 rounded-md bg-theme-primary-500" />
-          <div className="w-20 h-20 p-6 rounded-md bg-theme-secondary-500" />
-          <div className="w-20 h-20 p-6 rounded-md bg-theme-gray-500" />
-          <div className="w-20 h-20 p-6 rounded-md bg-theme-gray-300" />
-          <div className="w-20 h-20 p-6 rounded-md bg-theme-red-500" />
-        </div> */}
         {/* Birth Details Input */}
-           {Array.isArray(userDetails.persons) && (
         <div
           ref={addPersonFormRef}
           className="w-full gap-6 flex flex-col z-10 p-4 h-[75vh] justify-center items-center"
@@ -125,18 +118,16 @@ const LandingPage = () => {
             persons={userDetails.persons}
             type="add"
             onSuccess={(newPerson) =>
-          setUserDetails((prev) => ({
-  ...prev,
-  persons: [...prev.persons, newPerson]
-}))
-
-
+              setUserDetails((prev) => ({
+                ...prev,
+                persons: [...(prev.persons || []), newPerson],
+              }))
             }
           />
         </div>
-
       </div>
     </>
   );
 };
+
 export default LandingPage;
