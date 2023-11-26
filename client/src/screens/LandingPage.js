@@ -117,7 +117,7 @@ const LandingPage = () => {
           </button>
           <div
             ref={addPersonFormRef}
-            className="w-full gap-6 flex flex-col z-10 p-4 h-[75vh] justify-center items-center"
+            className="w-full gap-6 flex flex-col z-10 p-4 h-auto justify-center items-center"
           >
             <AddPersonForm
               persons={userDetails.persons}
